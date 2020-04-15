@@ -155,7 +155,7 @@ def test_map_data(unittest):
             params = {
                 'output': (
                     '..map-input-data.data...map-loc-dropdown.options...map-lat-dropdown.options...'
-                    'map-lon-dropdown.options...map-value-dropdown.options...map-loc-mode-input.style...'
+                    'map-lon-dropdown.options...map-val-dropdown.options...map-loc-mode-input.style...'
                     'map-loc-input.style...map-lat-input.style...map-lon-input.style...map-scope-input.style...'
                     'map-proj-input.style...proj-hover.style...proj-hover.children...loc-mode-hover.style...'
                     'loc-mode-hover.children..'
