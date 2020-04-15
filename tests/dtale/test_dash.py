@@ -49,7 +49,7 @@ def test_display_page(unittest):
             }
             response = c.post('/charts/_dash-update-component', json=params)
             resp_data = response.get_json()['response']
-            component_defs = resp_data['props']['children']['props']['children']
+            component_defs = resp_data['popup-content']['children']['props']['children']
             x_dd = component_defs[10]['props']['children'][0]
             x_dd = x_dd['props']['children'][0]
             x_dd = x_dd['props']['children'][0]
@@ -461,7 +461,7 @@ def test_chart_input_updates(unittest):
 
         response = c.post('/charts/_dash-update-component', json=params)
         resp_data = response.get_json()
-        unittest.assertEqual(resp_data['response']['props']['data'], {
+        unittest.assertEqual(resp_data['response']['chart-input-data']['data'], {
             'cpg': False, 'barmode': 'group', 'barsort': None, 'colorscale': None, 'animate': None, 'animate_by': None
         })
 
@@ -494,7 +494,7 @@ def test_yaxis_data(unittest):
         response = c.post('/charts/_dash-update-component', json=params)
         resp_data = response.get_json()
         unittest.assertEqual(
-            resp_data['response']['props']['data'],
+            resp_data['response']['yaxis-data']['data'],
             {'data': {'all': {'max': 0.42, 'min': -1.52}}, 'type': 'single'}
         )
 
@@ -505,7 +505,7 @@ def test_yaxis_data(unittest):
         response = c.post('/charts/_dash-update-component', json=params)
         resp_data = response.get_json()
         unittest.assertEqual(
-            resp_data['response']['props']['data'],
+            resp_data['response']['yaxis-data']['data'],
             {'data': {'Col1': {'max': 1.42, 'min': -1.52}}, 'type': 'multi'}
         )
 
@@ -514,7 +514,7 @@ def test_yaxis_data(unittest):
         params['state'][1]['value'] = {'data': {'Col1': {'max': 1.42, 'min': -1.52}}, 'type': 'single'}
         response = c.post('/charts/_dash-update-component', json=params)
         resp_data = response.get_json()
-        unittest.assertEqual(resp_data['response']['props']['data'], {'data': {}, 'type': 'multi'})
+        unittest.assertEqual(resp_data['response']['yaxis-data']['data'], {'data': {}, 'type': 'multi'})
 
         params['state'][0]['value'] = None
         response = c.post('/charts/_dash-update-component', json=params)
@@ -536,8 +536,8 @@ def build_chart_params(pathname, inputs={}, chart_inputs={}, yaxis={}, last_inpu
             {'id': 'input-data', 'property': 'data', 'value': inputs},
             {'id': 'chart-input-data', 'property': 'data', 'value': chart_inputs},
             {'id': 'yaxis-data', 'property': 'data', 'value': yaxis},
+            {'id': 'map-input-data', 'property': 'data', 'value': map_inputs},
             {'id': 'last-chart-input-data', 'property': 'data', 'value': last_inputs},
-            {'id': 'map-input-data', 'property': 'data', 'value': map_inputs}
         ]
     }
 
@@ -557,7 +557,7 @@ def test_chart_building_nones(unittest):
         params['state'][-1]['value'] = {'cpg': False, 'barmode': 'group', 'barsort': None, 'yaxis': {}}
         response = c.post('/charts/_dash-update-component', json=params)
         resp_data = response.get_json()
-        assert resp_data['response']['chart-content']['children'] is None
+        assert resp_data is None
 
 
 @pytest.mark.unit
